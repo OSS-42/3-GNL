@@ -16,20 +16,59 @@ char	*get_next_line(int fd)
 {
 	int						fd;
 	char					*s1;
-	char					*s2[9999];
+	char					*buffer;
 	unsigned long			nexteol;
 	unsigned long			nextstart;
 
 	fd = open("numbers.dict", O_RDONLY);
-	if (fd == -1)
+	buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer || fd == -1)
 		return (NULL);
-	read(fd, s2, 9999);
-	nexteol = ft_strchr(s2);
+	read(fd, buffer, BUFFER_SIZE);
+	nexteol = ft_strchr(buffer);
+	if (nexteol == NULL)
+		return (NULL);
 	printf("Next EOL : %d\n", nexteol);
-	nextstart = ft_next_start(nexteol);
-	s1 = ft_substr(s2, nextstart, nexteol);
+	nextstart = nexteol + 1 ;
+	s1 = ft_substr(buffer, nextstart, nexteol);
 
 
 
 	close(fd);
 }
+
+int	main()
+{
+	int	fd;
+
+	fd = open("numbers.dict", O_RDONLY);
+	while(1)
+	{
+		char *nextline = get_next_line(fd);
+		if (nextline == NULL)
+			break ;
+		printf("test : %s\n", nextline);
+	}
+
+	return (0);
+}
+
+/*int	main()
+{
+	int	fd;
+	int	fd2;
+
+	fd = open("numbers.dict", O_RDONLY);
+	fd2 = open("test.txt", O_RDONLY);
+	while(1)
+	{
+		char *nextline = get_next_line(fd);
+		char *nextline2 = get_next_line(fd2);
+		printf("test : %s\n", nextline);
+		printf("test : %s\n", nextline2);
+		if (nextline == NULL || nextline2 == NULL)
+			break ;
+	}
+
+	return (0);
+}*/

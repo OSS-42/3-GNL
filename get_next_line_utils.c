@@ -60,17 +60,47 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	while (s[start + ++i] && i< len)
 		dst[i] = s[start + i];
 	dst[i] = '\0';
-	return (dst)
+	return (dst);
 }
 
-size_t	ft_next_start(size_t nexteol)
+void	*ft_calloc(size_t count, size_t size)
 {
-	static unsigned long	start;
-	static unsigned long	count;
+	void	*buffer;
+	int		n;
 
-	count = 0;
-	if (count == 0)
-		start = 0;
-	else
-		start = nexteol + 1;
+	n = (count * size);
+	buffer = malloc(n);
+	if(buffer)
+		while(n > 0)
+			((char *)buffer)[--n] = 0;
+	return (buffer);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	size_t	slen1;
+	size_t	slen2;
+	char	*dst;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	slen1 = ft_strlen((char *)s1);
+	slen2 = ft_strlen((char *)s2);
+	dst = (char *)malloc(sizeof(char) * (slen1 + slen2 + 1));
+	if (!dst)
+		return (NULL);
+	i = -1;
+	while (++i < slen1)
+	{
+		dst[i] = s1[i];
+	}
+	j = -1;
+	while (++j < slen2)
+	{
+		dst[i + j] = s2[j];
+	}
+	dst[i + j] = '\0';
+	return (dst);
 }
