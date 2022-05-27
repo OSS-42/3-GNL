@@ -24,6 +24,12 @@ char	*get_next_line(int fd)
 	if (!buffer || fd == -1)
 		return (NULL);
 	read(fd, buffer, BUFFER_SIZE);
+
+
+
+
+
+	
 	nexteol = ft_strchr(buffer);
 	if (nexteol == 0)
 		return (NULL);
@@ -31,6 +37,7 @@ char	*get_next_line(int fd)
 	nextstart = 0 ;
 	s1 = ft_substr(buffer, nextstart, nexteol + 1);
 	close(fd);
+	free(buffer);
 	return (s1);
 }
 
