@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <get_next_line.h>
+#include "get_next_line.h"
 
 char	*get_next_line(int fd)
 {
-	int						fd;
 	char					*s1;
 	char					*buffer;
 	unsigned long			nexteol;
@@ -26,15 +25,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	read(fd, buffer, BUFFER_SIZE);
 	nexteol = ft_strchr(buffer);
-	if (nexteol == NULL)
+	if (nexteol == 0)
 		return (NULL);
-	printf("Next EOL : %d\n", nexteol);
-	nextstart = nexteol + 1 ;
-	s1 = ft_substr(buffer, nextstart, nexteol);
-
-
-
+	printf("Next EOL : %ld\n", nexteol);
+	nextstart = 0 ;
+	s1 = ft_substr(buffer, nextstart, nexteol + 1);
 	close(fd);
+	return (s1);
 }
 
 int	main()

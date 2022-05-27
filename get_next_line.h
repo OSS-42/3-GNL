@@ -15,9 +15,11 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 35
+#  define BUFFER_SIZE 20
 # endif
 
 char	*get_next_line(int fd);

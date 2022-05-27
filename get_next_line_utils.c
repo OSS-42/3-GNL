@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <get_next_line.h>
+#include "get_next_line.h"
 
 size_t	ft_strlen(char *string)
 {
@@ -25,13 +25,14 @@ size_t	ft_strlen(char *string)
 size_t	ft_strchr(char *s)
 {
 	size_t	i;
-	size_t	len;
 
 	i = -1;
-	while (s[i++])
+	while (s[++i])
+	{
 		if (s[i] == '\n')
 			return (i);
-	return (NULL);
+	}
+	return (0);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
