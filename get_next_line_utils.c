@@ -12,29 +12,6 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *string)
-{
-	size_t	i;
-
-	i = 0;
-	while (string[i])
-		i++;
-	return (i);
-}
-
-size_t	ft_strchr(char *s)
-{
-	size_t	i;
-
-	i = -1;
-	while (s[++i])
-	{
-		if (s[i] == '\n')
-			return (i);
-	}
-	return (0);
-}
-
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -77,7 +54,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (buffer);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *fixedbuffer, char *buffer)
 {
 	size_t	slen1;
 	size_t	slen2;
@@ -85,37 +62,21 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	if (!s1 || !s2)
-		return (NULL);
-	slen1 = ft_strlen((char *)s1);
-	slen2 = ft_strlen((char *)s2);
+	slen1 = ft_strlen((char *)fixedbuffer);
+	slen2 = 5;
 	dst = (char *)malloc(sizeof(char) * (slen1 + slen2 + 1));
 	if (!dst)
 		return (NULL);
 	i = -1;
 	while (++i < slen1)
 	{
-		dst[i] = s1[i];
+		dst[i] = fixedbuffer[i];
 	}
 	j = -1;
 	while (++j < slen2)
 	{
-		dst[i + j] = s2[j];
+		dst[i + j] = buffer[j];
 	}
 	dst[i + j] = '\0';
 	return (dst);
-}
-
-size_t	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (s1[i] == s2[i] && s1[i] && s2[i] && i < n - 1)
-	{
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
