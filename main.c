@@ -22,7 +22,7 @@ int	main()
 		char *nextline = get_next_line(fd);
 		if (nextline == NULL)
 			break ;
-		printf("test : %s\n", nextline);
+		printf("%s", nextline);
 		free(nextline);
 	}
 	return (0);

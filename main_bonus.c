@@ -18,13 +18,13 @@ int	main()
 	int	fd2;
 
 	fd = open("numbers.dict", O_RDONLY);
-	fd2 = open("test.txt", O_RDONLY);
+	fd2 = open("numbers2.txt", O_RDONLY);
 	while(1)
 	{
 		char *nextline = get_next_line(fd);
 		char *nextline2 = get_next_line(fd2);
-		printf("test : %s\n", nextline);
-		printf("test : %s\n", nextline2);
+		printf("%s", nextline);
+		printf("%s", nextline2);
 		if (nextline == NULL || nextline2 == NULL)
 			break ;
 	}

@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
@@ -19,121 +19,66 @@
 	//4. affiche dest, clean dest
 	//5. clean fixedbuffer en enlevant la partie copiee dans dest
 
-void	ft_clean(char *string, size_t pos)
+char	*ft_clean(char *fixedbuffer, size_t pos)
 {
 	char	*temp;
 	size_t	i;
-
-	i = 0;
-	temp = NULL;
-	while(string[++pos])
-		temp[i++] = string[pos];
-	free (string);
-	i = 0;
-	string[i] = temp[i];
-	free (temp);
-}
-
-size_t	ft_strlen(char *string)
-{
 	size_t	len;
 
-	len = 0;
-	while (string[len])
-		len++;
-	return (len);
+	i = 0;
+	temp = (char *)malloc(sizeof(char) * (pos));
+	while (fixedbuffer[pos])
+		temp[i++] = fixedbuffer[pos++];
+	temp[i] = '\0';
+	len = ft_strlen(temp);
+	fixedbuffer = (char *)malloc(sizeof(char) * (len));
+	i = -1;
+	while(temp[++i])
+		fixedbuffer[i] = temp[i];
+	fixedbuffer[i] = '\0';
+	free (temp);
+	return(fixedbuffer);
 }
 
-char	*ft_line(char *string)
+char	*ft_line(char *fixedbuffer, size_t len)
 {
-	char	*dest;
-	long	len;
+	char	*linetoprint;
 	long	pos;
 
-	len = ft_strlen(string);
-	dest = (char *)malloc(sizeof(char) * len);
-	if (!dest)
+	linetoprint = (char *)malloc(sizeof(char) * (len + 1));
+	if (!linetoprint)
 		return (NULL);
 	pos = -1;
-	while(string[++pos])
-		dest[pos] = string[pos];
-	dest[pos]= '\0';
-	ft_clean(string, pos);
-	return (dest);
-}
-
-size_t	ft_strchr(char *string)
-{
-	size_t	i;
-
-	i = 0;
-	printf ("fixedbuffer : %s", string);
-	while (string[i])
-	{
-		if (string[i] == '\n')
-			return(1);
-		i++;
-	}
-	return (0);
+	while(fixedbuffer[++pos] != '\n')
+		linetoprint[pos] = fixedbuffer[pos];
+	linetoprint[pos] = '\n';
+	pos = pos + 1;
+	linetoprint[pos] = '\0';
+	return (linetoprint);
 }
 
 char	*get_next_line(int fd)
 {
-	char					*buffer;
-	static char				*fixedbuffer;
+	char			*buffer;
+	static char		*fixedbuffer;
+	char			*linetoprint;
+	size_t			i;
 
-	printf("all good so far %d", 1);
 	fd = open("numbers.dict", O_RDONLY);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buffer || fd == -1 || read(fd, buffer, 0) < 0)
+	if (!buffer || fd == -1 || read(fd, 0, 0) < 0)
 		return (NULL);
-	while (read(fd, buffer, 5) > 0)
+	while (fd > 0)
 	{
-		printf("all good so far %d", 2);;
+		read(fd, buffer, 5);
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer);
-		if (ft_strchr(fixedbuffer) == 1)
-		{
-			printf("all good so far %d", 3);;
-			return (ft_line(fixedbuffer));
-		}
+		i = ft_strchr(fixedbuffer);
+		if (i > 0)
+			break;
 	}
+	linetoprint = ft_line(fixedbuffer, i);
+	fixedbuffer = ft_clean(fixedbuffer, i + 1);
 	close (fd);
 	free (buffer);
-	return (NULL);
+	return (linetoprint);
 }
-
-int	main()
-{
-	int	fd;
-
-	fd = open("numbers.dict", O_RDONLY);
-	while(1)
-	{
-		char *nextline = get_next_line(fd);
-		if (nextline == NULL)
-			break ;
-		printf("test : %s\n", nextline);
-	}
-
-	return (0);
-}
-
-/*int	main()
-{
-	int	fd;
-	int	fd2;
-
-	fd = open("numbers.dict", O_RDONLY);
-	fd2 = open("test.txt", O_RDONLY);
-	while(1)
-	{
-		char *nextline = get_next_line(fd);
-		char *nextline2 = get_next_line(fd2);
-		printf("test : %s\n", nextline);
-		printf("test : %s\n", nextline2);
-		if (nextline == NULL || nextline2 == NULL)
-			break ;
-	}
-
-	return (0);
-}*/

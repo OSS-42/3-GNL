@@ -3,7 +3,7 @@
 #NAME = gnl.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -o
+CFLAGS = -g -Wall -Werror -Wextra -o
 #CFLAGSTEST = -o
 RM = rm -f
 #AR = ar rcs
