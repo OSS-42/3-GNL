@@ -32,7 +32,7 @@ size_t	ft_strchr(char *string)
 	while (string[i])
 	{
 		if (string[i] == '\n')
-			return(i);
+			return (i);
 		i++;
 	}
 	return (0);
@@ -45,8 +45,8 @@ void	*ft_calloc(size_t count, size_t size)
 
 	n = (count * size);
 	buffer = malloc(n);
-	if(buffer)
-		while(n > 0)
+	if (buffer)
+		while (n > 0)
 			((char *)buffer)[--n] = 0;
 	return (buffer);
 }

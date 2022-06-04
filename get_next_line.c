@@ -33,11 +33,11 @@ char	*ft_clean(char *fixedbuffer, size_t pos)
 	len = ft_strlen(temp);
 	fixedbuffer = (char *)malloc(sizeof(char) * (len));
 	i = -1;
-	while(temp[++i])
+	while (temp[++i])
 		fixedbuffer[i] = temp[i];
 	fixedbuffer[i] = '\0';
 	free (temp);
-	return(fixedbuffer);
+	return (fixedbuffer);
 }
 
 char	*ft_line(char *fixedbuffer, size_t len)
@@ -49,7 +49,7 @@ char	*ft_line(char *fixedbuffer, size_t len)
 	if (!linetoprint)
 		return (NULL);
 	pos = -1;
-	while(fixedbuffer[++pos] != '\n')
+	while (fixedbuffer[++pos] != '\n')
 		linetoprint[pos] = fixedbuffer[pos];
 	linetoprint[pos] = '\n';
 	pos = pos + 1;
@@ -74,7 +74,7 @@ char	*get_next_line(int fd)
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer);
 		i = ft_strchr(fixedbuffer);
 		if (i > 0)
-			break;
+			break ;
 	}
 	linetoprint = ft_line(fixedbuffer, i);
 	fixedbuffer = ft_clean(fixedbuffer, i + 1);
