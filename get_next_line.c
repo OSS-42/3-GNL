@@ -33,7 +33,7 @@ char	*ft_clean(char *fixedbuffer, size_t pos)
 	return (fixedbuffer);
 }
 
-char	*ft_line(char *fixedbuffer, size_t len, int flag)
+char	*ft_line(char *fixedbuffer, size_t len)
 {
 	char	*linetoprint;
 	long	pos;
@@ -44,12 +44,8 @@ char	*ft_line(char *fixedbuffer, size_t len, int flag)
 	pos = -1;
 	while (fixedbuffer[++pos] != '\n')
 		linetoprint[pos] = fixedbuffer[pos];
-	printf ("flag : %d | ", flag);
-	if (flag != 0)
-	{
-		linetoprint[pos] = '\n';
-		pos = pos + 1;
-	}
+	linetoprint[pos] = '\n';
+	pos = pos + 1;
 	linetoprint[pos] = '\0';
 	return (linetoprint);
 }
@@ -60,21 +56,18 @@ char	*get_next_line(int fd)
 	static char		*fixedbuffer;
 	char			*linetoprint;
 	ssize_t			i;
-	int				flag;
 
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer || fd == -1 || read(fd, 0, 0) < 0)
 		return (NULL);
-	flag = read(fd, buffer, BUFFER_SIZE);
-	while (flag > 0)
+	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer);
 		i = ft_strchr(fixedbuffer);
 		if (i > 0)
 			break ;
-		flag = read(fd, buffer, BUFFER_SIZE);
 	}
-	linetoprint = ft_line(fixedbuffer, i, flag);
+	linetoprint = ft_line(fixedbuffer, i);
 	fixedbuffer = ft_clean(fixedbuffer, i + 1);
 	free (buffer);
 	return (linetoprint);
