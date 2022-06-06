@@ -27,3 +27,17 @@ int	main()
 	}
 	return (0);
 }
+/*
+{
+	int	fd;
+
+	fd = open("numbers.dict", O_RDONLY);
+	while(fd)
+	{
+		char *nextline = get_next_line(fd);
+		printf("%s", nextline);
+		free(nextline);
+	}
+	return (0);
+}
+*/

@@ -12,13 +12,6 @@
 
 #include "get_next_line.h"
 
-	//1. copy buffer dans fixedbuffer
-	//2. check dans fixedbuffer if \n
-	//2a. si non, read again
-	//3. si oui, copy string jusque \n dans dest
-	//4. affiche dest, clean dest
-	//5. clean fixedbuffer en enlevant la partie copiee dans dest
-
 char	*ft_clean(char *fixedbuffer, size_t pos)
 {
 	char	*temp;
@@ -40,7 +33,7 @@ char	*ft_clean(char *fixedbuffer, size_t pos)
 	return (fixedbuffer);
 }
 
-char	*ft_line(char *fixedbuffer, size_t len)
+char	*ft_line(char *fixedbuffer, size_t len, int flag)
 {
 	char	*linetoprint;
 	long	pos;
@@ -51,8 +44,12 @@ char	*ft_line(char *fixedbuffer, size_t len)
 	pos = -1;
 	while (fixedbuffer[++pos] != '\n')
 		linetoprint[pos] = fixedbuffer[pos];
-	linetoprint[pos] = '\n';
-	pos = pos + 1;
+	printf ("flag : %d | ", flag);
+	if (flag != 0)
+	{
+		linetoprint[pos] = '\n';
+		pos = pos + 1;
+	}
 	linetoprint[pos] = '\0';
 	return (linetoprint);
 }
@@ -62,23 +59,23 @@ char	*get_next_line(int fd)
 	char			*buffer;
 	static char		*fixedbuffer;
 	char			*linetoprint;
-	size_t			i;
+	ssize_t			i;
+	int				flag;
 
-	fd = open("numbers.dict", O_RDONLY);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer || fd == -1 || read(fd, 0, 0) < 0)
 		return (NULL);
-	while (fd > 0)
+	flag = read(fd, buffer, BUFFER_SIZE);
+	while (flag > 0)
 	{
-		read(fd, buffer, 5);
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer);
 		i = ft_strchr(fixedbuffer);
 		if (i > 0)
 			break ;
+		flag = read(fd, buffer, BUFFER_SIZE);
 	}
-	linetoprint = ft_line(fixedbuffer, i);
+	linetoprint = ft_line(fixedbuffer, i, flag);
 	fixedbuffer = ft_clean(fixedbuffer, i + 1);
-	close (fd);
 	free (buffer);
 	return (linetoprint);
 }
