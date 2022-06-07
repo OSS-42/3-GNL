@@ -19,14 +19,14 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 51
 # endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *string);
-ssize_t	ft_strchr(char *string);
+size_t	ft_strchr(char *string);
 char	*ft_clean(char *fixedbuffer, size_t pos);
-char	*ft_line(char *fixedbuffer, size_t len);
+char	*ft_line(char *string, size_t len, int flag);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strjoin(char *fixedbuffer, char *buffer);
 

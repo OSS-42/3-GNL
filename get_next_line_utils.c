@@ -24,9 +24,9 @@ size_t	ft_strlen(char *fixedbuffer)
 	return (len);
 }
 
-ssize_t	ft_strchr(char *string)
+size_t	ft_strchr(char *string)
 {
-	ssize_t	i;
+	size_t	i;
 
 	i = 0;
 	while (string[i])
