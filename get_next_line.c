@@ -87,10 +87,11 @@ char	*get_next_line(int fd)
 			break ;
 		bytesread = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (fixedbuffer != NULL && ft_strchr(fixedbuffer) == 0)
+	if (fixedbuffer != NULL && i == 0)
 		flag = 0;
+	i = ft_strlen(fixedbuffer);
 	linetoprint = ft_line(fixedbuffer, i, flag);
-	fixedbuffer = ft_clean(fixedbuffer, ft_strlen(fixedbuffer) + 1);
+	fixedbuffer = ft_clean(fixedbuffer, i + 1);
 	free (buffer);
 	return (linetoprint);
 }
