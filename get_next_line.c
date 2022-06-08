@@ -12,21 +12,24 @@
 
 #include "get_next_line.h"
 
-char	*ft_clean(char *fixedbuffer, size_t pos)
+char	*ft_clean(char *fixedbuffer, t_parameters *table)
 {
 	char	*temp;
+	size_t	pos;
 	size_t	i;
-	size_t	len;
+	size_t	j;
 
-	i = 0;
-	temp = ft_calloc(pos, 1);
+	pos = table->lenstr - (table->eolpos);
+	temp = (char *)malloc(sizeof(char) * (pos));
 	if (!temp)
 		return (NULL);
-	while (fixedbuffer[pos])
-		temp[i++] = fixedbuffer[pos++];
+	i = 0;
+	j = table->lenstr;
+	while (fixedbuffer[j])
+		temp[i++] = fixedbuffer[j++];
 	temp[i] = '\0';
-	len = ft_strlen(temp);
-	fixedbuffer = (char *)malloc(sizeof(char) * (len + 1));
+	pos = table->lenstr - (table->eolpos);
+	fixedbuffer = (char *)malloc(sizeof(char) * (pos));
 	if (!fixedbuffer)
 		return (NULL);
 	i = -1;
@@ -37,12 +40,12 @@ char	*ft_clean(char *fixedbuffer, size_t pos)
 	return (fixedbuffer);
 }
 
-char	*ft_line(char *string, size_t len, int flag)
+char	*ft_line(char *string, t_parameters *table)
 {
 	char	*linetoprint;
 	long	pos;
 
-	linetoprint = (char *)malloc(sizeof(char) * (len + 1));
+	linetoprint = (char *)malloc(sizeof(char) * (table->lenstr));
 	if (!linetoprint)
 		return (NULL);
 	pos = 0;
@@ -53,7 +56,7 @@ char	*ft_line(char *string, size_t len, int flag)
 		linetoprint[pos] = string[pos];
 		pos++;
 	}
-	if (flag != 0)
+	if (table->flag == 0)
 	{
 		linetoprint[pos] = '\n';
 		pos = pos + 1;
@@ -67,31 +70,27 @@ char	*get_next_line(int fd)
 	char			*buffer;
 	static char		*fixedbuffer;
 	char			*linetoprint;
-	size_t			i;
-	size_t			bytesread;
-	int				flag;
+	t_parameters	*table;
 
-	flag = 1;
-	i = 0;
+	table = ft_calloc(sizeof(t_parameters), 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer || fd == -1 || read(fd, 0, 0) < 0)
 		return (NULL);
-	bytesread = read(fd, buffer, BUFFER_SIZE);
-	if (bytesread == 0 && i == 0 && fixedbuffer[0] == '\0')
+	table->bytesread = read(fd, buffer, BUFFER_SIZE);
+	if (table->bytesread == 0 && table->eolpos == 0 && fixedbuffer[0] == '\0')
 		return (NULL);
-	while (bytesread > 0)
+	while (table->bytesread > 0)
 	{
-		fixedbuffer = ft_strjoin(fixedbuffer, buffer);
-		i = ft_strchr(fixedbuffer);
-		if (i > 0)
+		fixedbuffer = ft_strjoin(fixedbuffer, buffer, table);
+		table->eolpos = ft_strchr(fixedbuffer);
+		if (table->eolpos > 0)
 			break ;
-		bytesread = read(fd, buffer, BUFFER_SIZE);
+		table->bytesread = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (fixedbuffer != NULL && i == 0)
-		flag = 0;
-	i = ft_strlen(fixedbuffer);
-	linetoprint = ft_line(fixedbuffer, i, flag);
-	fixedbuffer = ft_clean(fixedbuffer, i + 1);
+	if (fixedbuffer != NULL && table->eolpos == 0)
+		table->flag = 1;
+	linetoprint = ft_line(fixedbuffer, table);
+	fixedbuffer = ft_clean(fixedbuffer, table);
 	free (buffer);
 	return (linetoprint);
 }

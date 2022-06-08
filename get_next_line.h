@@ -22,12 +22,20 @@
 #  define BUFFER_SIZE 3
 # endif
 
+typedef struct s_parameters
+{
+	size_t		eolpos;
+	size_t		lenstr;
+	size_t		bytesread;
+	int		flag;
+}	t_parameters;
+
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *string);
 size_t	ft_strchr(char *string);
-char	*ft_clean(char *fixedbuffer, size_t pos);
-char	*ft_line(char *string, size_t len, int flag);
+char	*ft_clean(char *fixedbuffer, t_parameters *table);
+char	*ft_line(char *string, t_parameters *table);
 void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char *fixedbuffer, char *buffer);
+char	*ft_strjoin(char *fixedbuffer, char *buffer, t_parameters *table);
 
 #endif

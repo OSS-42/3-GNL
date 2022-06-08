@@ -51,7 +51,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (buffer);
 }
 
-char	*ft_strjoin(char *fixedbuffer, char *buffer)
+char	*ft_strjoin(char *fixedbuffer, char *buffer, t_parameters *table)
 {
 	size_t	slen1;
 	size_t	slen2;
@@ -60,7 +60,7 @@ char	*ft_strjoin(char *fixedbuffer, char *buffer)
 	size_t	j;
 
 	slen1 = ft_strlen((char *)fixedbuffer);
-	slen2 = ft_strlen((char *)buffer);
+	slen2 = table->bytesread;
 	dst = (char *)malloc(sizeof(char) * (slen1 + slen2 + 1));
 	if (!dst)
 		return (NULL);
@@ -71,5 +71,6 @@ char	*ft_strjoin(char *fixedbuffer, char *buffer)
 	while (++j < slen2)
 		dst[i + j] = buffer[j];
 	dst[i + j] = '\0';
+	table->lenstr = i + j - 1;
 	return (dst);
 }
