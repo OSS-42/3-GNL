@@ -15,23 +15,25 @@
 char	*ft_clean(char *fixedbuffer, t_parameters *table)
 {
 	char	*temp;
-	size_t	pos;
+	size_t	templen;
 	size_t	i;
 	size_t	j;
 
-	pos = table->lenstr - (table->eolpos);
-	temp = (char *)malloc(sizeof(char) * (pos));
+	templen = table->lenstr - (table->eolpos);
+	temp = (char *)malloc(sizeof(char) * (templen + 1));
 	if (!temp)
 		return (NULL);
 	i = 0;
-	j = table->lenstr;
+	j = table->eolpos;
 	while (fixedbuffer[j])
 		temp[i++] = fixedbuffer[j++];
 	temp[i] = '\0';
-	pos = table->lenstr - (table->eolpos);
-	fixedbuffer = (char *)malloc(sizeof(char) * (pos));
-	if (!fixedbuffer)
+	fixedbuffer = (char *)malloc(sizeof(char) * (templen + 1));
+	if (!fixedbuffer || temp[0] == '\0')
+	{
+		free (temp);
 		return (NULL);
+	}
 	i = -1;
 	while (temp[++i])
 		fixedbuffer[i] = temp[i];
@@ -45,7 +47,7 @@ char	*ft_line(char *string, t_parameters *table)
 	char	*linetoprint;
 	long	pos;
 
-	linetoprint = (char *)malloc(sizeof(char) * (table->lenstr));
+	linetoprint = (char *)malloc(sizeof(char) * (table->lenstr + 1));
 	if (!linetoprint)
 		return (NULL);
 	pos = 0;
@@ -62,6 +64,7 @@ char	*ft_line(char *string, t_parameters *table)
 		pos = pos + 1;
 	}
 	linetoprint[pos] = '\0';
+	table->eolpos = pos;
 	return (linetoprint);
 }
 
@@ -73,24 +76,40 @@ char	*get_next_line(int fd)
 	t_parameters	*table;
 
 	table = ft_calloc(sizeof(t_parameters), 1);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer || fd == -1 || read(fd, 0, 0) < 0)
+	{
+		free (buffer);
+		free (table);
 		return (NULL);
+	}
 	table->bytesread = read(fd, buffer, BUFFER_SIZE);
-	if (table->bytesread == 0 && table->eolpos == 0 && fixedbuffer[0] == '\0')
+	if (table->bytesread == 0 && fixedbuffer == NULL)
+	{
+		free (buffer);
+		free (table);
 		return (NULL);
+	}
+	table->lenstr = ft_strlen(fixedbuffer, table);
+	/*if (table->lenstr > 0 && table->eolpos > 0 && fixedbuffer != NULL)
+	{
+		linetoprint = ft_line(fixedbuffer, table);
+		fixedbuffer = ft_clean(fixedbuffer, table);
+		free (buffer);
+		return (linetoprint);
+	}*/
 	while (table->bytesread > 0)
 	{
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer, table);
-		table->eolpos = ft_strchr(fixedbuffer);
 		if (table->eolpos > 0)
 			break ;
 		table->bytesread = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (fixedbuffer != NULL && table->eolpos == 0)
+	if (fixedbuffer != NULL && table->eolpos == 0 && table->lenstr > 0)
 		table->flag = 1;
 	linetoprint = ft_line(fixedbuffer, table);
 	fixedbuffer = ft_clean(fixedbuffer, table);
+	free (table);
 	free (buffer);
 	return (linetoprint);
 }

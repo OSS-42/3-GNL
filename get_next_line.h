@@ -19,7 +19,7 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3
+#  define BUFFER_SIZE 10000
 # endif
 
 typedef struct s_parameters
@@ -27,15 +27,14 @@ typedef struct s_parameters
 	size_t		eolpos;
 	size_t		lenstr;
 	size_t		bytesread;
-	int		flag;
+	int			flag;
 }	t_parameters;
 
-char	*get_next_line(int fd);
-size_t	ft_strlen(char *string);
-size_t	ft_strchr(char *string);
-char	*ft_clean(char *fixedbuffer, t_parameters *table);
-char	*ft_line(char *string, t_parameters *table);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_strjoin(char *fixedbuffer, char *buffer, t_parameters *table);
+char		*get_next_line(int fd);
+size_t		ft_strlen(char *string, t_parameters *table);
+char		*ft_clean(char *fixedbuffer, t_parameters *table);
+char		*ft_line(char *string, t_parameters *table);
+void		*ft_calloc(size_t count, size_t size);
+char		*ft_strjoin(char *fixedbuffer, char *buffer, t_parameters *table);
 
 #endif
