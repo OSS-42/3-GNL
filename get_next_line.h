@@ -19,7 +19,7 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000
+#  define BUFFER_SIZE 42
 # endif
 
 typedef struct s_parameters
@@ -28,6 +28,7 @@ typedef struct s_parameters
 	size_t		lenstr;
 	size_t		bytesread;
 	int			flag;
+	char		*dst;
 }	t_parameters;
 
 char		*get_next_line(int fd);

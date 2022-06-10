@@ -11,11 +11,14 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <time.h>
 
 int	main()
 {
 	int	fd;
+	clock_t t;
 
+    t = clock();
 	fd = open("numbers.dict", O_RDONLY);
 	while(1)
 	{
@@ -25,6 +28,14 @@ int	main()
 		printf("%s", nextline);
 		free(nextline);
 	}
+	t = clock() - t;
+	double time_taken = ((double)t)/CLOCKS_PER_SEC;
+	printf("\033[1;91m"); 
+	printf("###END OF FILE###\n"); 
+	printf("\033[0m");
+	printf("\033[0;95m"); 
+	printf("|get_next_line took %f seconds to read all the fd|\n", time_taken);
+	printf("\033[0m");
 	return (0);
 }
 /*

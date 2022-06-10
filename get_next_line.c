@@ -91,21 +91,17 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	table->lenstr = ft_strlen(fixedbuffer, table);
-	/*if (table->lenstr > 0 && table->eolpos > 0 && fixedbuffer != NULL)
-	{
-		linetoprint = ft_line(fixedbuffer, table);
-		fixedbuffer = ft_clean(fixedbuffer, table);
-		free (buffer);
-		return (linetoprint);
-	}*/
 	while (table->bytesread > 0)
 	{
 		fixedbuffer = ft_strjoin(fixedbuffer, buffer, table);
 		if (table->eolpos > 0)
 			break ;
+		if (fixedbuffer[0] == '\n')
+			break ;
 		table->bytesread = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (fixedbuffer != NULL && table->eolpos == 0 && table->lenstr > 0)
+	ft_strlen(fixedbuffer, table);
+	if (fixedbuffer != NULL && table->eolpos == 0 && table->lenstr > 0 && table->bytesread == 0)
 		table->flag = 1;
 	linetoprint = ft_line(fixedbuffer, table);
 	fixedbuffer = ft_clean(fixedbuffer, table);

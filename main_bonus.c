@@ -11,12 +11,15 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <time.h>
 
 int	main()
 {
 	int	fd;
 	int	fd2;
+	clock_t t;
 
+    t = clock();
 	fd = open("numbers.dict", O_RDONLY);
 	fd2 = open("numbers2.txt", O_RDONLY);
 	while(1)
@@ -28,6 +31,8 @@ int	main()
 		if (nextline == NULL || nextline2 == NULL)
 			break ;
 	}
-
+	t = clock() - t;
+	double time_taken = ((double)t)/CLOCKS_PER_SEC;
+	printf("\n|get_next_line took %f seconds to read all the fd|\n", time_taken);
 	return (0);
 }
