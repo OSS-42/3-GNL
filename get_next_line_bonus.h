@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -26,5 +27,6 @@ char	*ft_linetoprint(char *string);
 char	*ft_search(char *string, char c);
 size_t	ft_lenght(char *string);
 char	*ft_join(char *stash, char *buffer);
+
 
 #endif

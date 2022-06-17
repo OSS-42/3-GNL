@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_clean(char *string)
 {
@@ -65,7 +65,7 @@ char	*ft_linetoprint(char *string)
 
 char	*get_next_line(int fd)
 {
-	static	char *stash;
+	static	char *stash[OPEN_MAX];
 	char	*line;
 	int		i;
 
@@ -75,7 +75,7 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (NULL);
 	i = 1;
-	while (!ft_search(stash, '\n') && i != 0)
+	while (!ft_search(stash[fd], '\n') && i != 0)
 	{
 		i = read(fd, line, BUFFER_SIZE);
 		if (i == -1)
@@ -84,10 +84,10 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		line[i] = '\0';
-		stash = ft_join(stash, line);
+		stash[fd] = ft_join(stash[fd], line);
 	}
 	free (line);
-	line = ft_linetoprint(stash);
-	stash = ft_clean(stash);
+	line = ft_linetoprint(stash[fd]);
+	stash[fd] = ft_clean(stash[fd]);
 	return (line);
 }
