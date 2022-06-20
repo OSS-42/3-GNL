@@ -65,7 +65,7 @@ char	*ft_linetoprint(char *string)
 
 char	*get_next_line(int fd)
 {
-	static	char *stash[OPEN_MAX];
+	static	char *stash[257];
 	char	*line;
 	int		i;
 
