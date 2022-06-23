@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -27,6 +27,5 @@ char	*ft_linetoprint(char *string);
 char	*ft_search(char *string, char c);
 size_t	ft_lenght(char *string);
 char	*ft_join(char *stash, char *buffer);
-
 
 #endif
