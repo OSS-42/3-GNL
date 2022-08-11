@@ -69,7 +69,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			i;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 257)
 		return (NULL);
 	line = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!line)
