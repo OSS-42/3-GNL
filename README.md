@@ -1,6 +1,6 @@
 # 3-GNL
 
-![GNL](https://github.com/byaliego/42-project-badges/blob/main/badges/get_next_line-bonus.png)
+![GNL](https://github.com/byaliego/42-project-badges/blob/main/badges/get_next_linem.png)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/xDeadpoolx/3-GNL?style=for-the-badge)
 
